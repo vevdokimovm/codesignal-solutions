@@ -1,0 +1,76 @@
+# Python Script to Practice Manipulation of a Double Linked List
+
+# Node class
+class Node:
+	def __init__(self, data=None):
+		self.data = data
+		self.next = None
+		self.prev = None
+
+
+# DoublyLinkedList class
+class DoublyLinkedList:
+	def __init__(self):
+		self.head = None
+		self.tail = None
+
+	# Insert method
+	def insert(self, data):
+		new_node = Node(data)
+		if self.head is None:
+			self.head = new_node
+			self.tail = new_node
+		else:
+			self.tail.next = new_node
+			new_node.prev = self.tail
+			self.tail = new_node
+
+	# Delete method
+	def delete(self, data):
+		current_node = self.head
+		while current_node is not None:
+			if current_node.data == data:
+				if current_node.next is not None:
+					current_node.next.prev = current_node.prev
+				else:
+					self.tail = current_node.prev
+				if current_node.prev is not None:
+					current_node.prev.next = current_node.next
+				else:
+					self.head = current_node.next
+				return 
+			current_node = current_node.next
+
+	# Display method (forward)
+	def display_forward(self):
+		current_node = self.head
+		while current_node:
+			print(current_node.data, end=" <-> ")
+			current_node = current_node.next
+		print('END')
+
+	# New display method (backward)
+	def display_backward(self):
+		current_node = self.tail
+		while current_node:
+			print(current_node.data, end=" <-> ")
+			current_node = current_node.prev
+		print("START")
+
+
+# Create a doubly linked list
+dList = DoublyLinkedList()
+
+# Insert some elements into the doubly linked list
+dList.insert("Mars")
+dList.insert("Jupiter")
+dList.insert('Saturn')
+
+# Remove the node "Jupiter"
+dList.delete("Jupiter")
+
+# Display the elements of the double linked list in forward direction
+dList.display_forward()  # Expected outpu: Mars <-> Saturn <-> END
+
+# Display the elements of the doubly linked list in backward direction
+dList.display_backward()  # Expected output: Saturn <-> Mars <-> START
